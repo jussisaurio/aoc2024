@@ -1,0 +1,32 @@
+use aoc2024::day01::{day1_part1, day1_part2};
+use aoc2024::day02::{day2_part1, day2_part2};
+use aoc2024::day03::{day3_part1, day3_part2};
+use aoc2024::day04::{day4_part1, day4_part2};
+use aoc2024::day05::{day5_part1, day5_part2};
+use aoc2024::day06::{day6_part1, day6_part2};
+fn main() {
+    let ret1 = day1_part1();
+    println!("day1_part1: {}", ret1);
+    let ret1_2 = day1_part2();
+    println!("day1_part2: {}", ret1_2);
+    let ret2 = day2_part1();
+    println!("day2_part1: {}", ret2);
+    let ret2_2 = day2_part2();
+    println!("day2_part2: {}", ret2_2);
+    let ret3 = day3_part1();
+    println!("day3_part1: {}", ret3);
+    let ret3_2 = day3_part2();
+    println!("day3_part2: {}", ret3_2);
+    let ret4 = day4_part1();
+    println!("day4_part1: {}", ret4);
+    let ret4_2 = day4_part2();
+    println!("day4_part2: {}", ret4_2);
+    let ret5 = day5_part1();
+    println!("day5_part1: {}", ret5);
+    let ret5_2 = day5_part2();
+    println!("day5_part2: {}", ret5_2);
+    let ret6 = day6_part1();
+    println!("day6_part1: {}", ret6);
+    let ret6_2 = day6_part2();
+    println!("day6_part2: {}", ret6_2);
+}
