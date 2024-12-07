@@ -251,10 +251,16 @@ pub fn day6_part2() -> usize {
     let lines = aoc_read_day_lines(6);
     let map = Map::from_lines(&lines);
 
+    let mut initial_clone = map.clone();
+    initial_clone.run();
+    let initial_visited = initial_clone.visited;
+
     let coords: Vec<(usize, usize)> = (0..HEIGHT)
         .flat_map(|y| (0..WIDTH).map(move |x| (x, y)))
         .filter(|&(x, y)| {
-            *map.coords.get(x, y) != Terrain::Wall && (x, y) != (map.guard.x, map.guard.y)
+            *initial_visited.get(x, y)
+                && *map.coords.get(x, y) != Terrain::Wall
+                && (x, y) != (map.guard.x, map.guard.y)
         })
         .collect();
 
