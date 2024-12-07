@@ -1,12 +1,6 @@
-use crate::util::aoc_mmap_day_input;
+use crate::util::aoc_read_day_lines;
 use memmap::Mmap;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
-pub struct Parser {
-    mmap: Mmap,
-    input: &'static [u8],
-    offset: usize,
-    is_part2: bool,
-}
 
 trait Concat {
     fn concat(&self, other: usize) -> usize;
@@ -54,80 +48,28 @@ fn parse_line(target: usize, operands: &[usize], is_part2: bool) -> usize {
     0
 }
 
-impl Parser {
-    pub fn new((mmap, input): (Mmap, &'static [u8]), is_part2: bool) -> Self {
-        Self {
-            mmap,
-            input,
-            offset: 0,
-            is_part2,
-        }
-    }
-
-    fn next(&mut self) {
-        self.offset += 1;
-    }
-
-    fn peek(&self) -> Option<u8> {
-        self.input.get(self.offset).copied()
-    }
-
-    fn parse_operands_of_line(&mut self) -> (usize, Vec<usize>) {
-        let target = self.parse_number();
-        self.next(); // skip colon
-        self.next(); // skip space
-        let mut operands = Vec::with_capacity(20);
-        while let Some(c) = self.peek() {
-            if c.is_ascii_digit() {
-                operands.push(self.parse_number());
-            } else if c == b' ' {
-                self.next();
-            } else {
-                assert!(c == b'\n');
-                self.next();
-                break;
-            }
-        }
-        (target, operands)
-    }
-
-    fn parse(&mut self) -> usize {
-        let mut operands_lines = Vec::with_capacity(100);
-        while self.peek().is_some() {
-            operands_lines.push(self.parse_operands_of_line());
-        }
-        operands_lines
-            .par_iter()
-            .map(|(target, operands)| parse_line(*target, operands, self.is_part2))
-            .sum()
-    }
-
-    fn parse_number(&mut self) -> usize {
-        let mut num = None;
-        while let Some(c) = self.peek() {
-            if c.is_ascii_digit() {
-                if let Some(n) = num {
-                    num = Some(n * 10 + (c - b'0') as usize);
-                } else {
-                    num = Some((c - b'0') as usize);
-                }
-                self.next();
-            } else {
-                break;
-            }
-        }
-        num.unwrap()
-    }
-}
-
 pub fn day7_part1() -> usize {
-    let (mmap, buf) = aoc_mmap_day_input(7);
-    let mut parser = Parser::new((mmap, buf), false);
-    parser.parse()
+    let lines = aoc_read_day_lines(7);
+    lines
+        .par_iter()
+        .map(|line| {
+            let (target, operands) = line.split_once(": ").unwrap();
+            let target = target.parse().unwrap();
+            let operands: Vec<_> = operands.split(' ').map(|s| s.parse().unwrap()).collect();
+            parse_line(target, &operands, false)
+        })
+        .sum()
 }
 
 pub fn day7_part2() -> usize {
-    let (mmap, buf) = aoc_mmap_day_input(7);
-    let mut parser = Parser::new((mmap, buf), true);
-    parser.parse()
+    let lines = aoc_read_day_lines(7);
+    lines
+        .par_iter()
+        .map(|line| {
+            let (target, operands) = line.split_once(": ").unwrap();
+            let target = target.parse().unwrap();
+            let operands: Vec<_> = operands.split(' ').map(|s| s.parse().unwrap()).collect();
+            parse_line(target, &operands, true)
+        })
+        .sum()
 }
