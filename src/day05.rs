@@ -111,13 +111,10 @@ pub fn day5_part2() -> usize {
         .collect();
 
     for invalid in invalids.iter_mut() {
-        for i in 0..invalid.len() {
-            for j in i + 1..invalid.len() {
-                if should_swap(invalid[i], invalid[j], &rules) {
-                    invalid.swap(i, j);
-                }
-            }
-        }
+        invalid.sort_by(|a, b| {
+            let should = should_swap(*a, *b, &rules);
+            should.cmp(&!should)
+        });
     }
 
     let sum_of_middle_nums: usize = invalids.iter().map(|u| u[u.len() / 2]).sum();
