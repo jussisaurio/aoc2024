@@ -1,5 +1,6 @@
 use crate::util::aoc_mmap_day_input;
 use memmap::Mmap;
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 pub struct Parser {
     mmap: Mmap,
     input: &'static [u8],
@@ -17,6 +18,40 @@ impl Concat for usize {
         let num_digits = (other as f64).log10().floor() as usize + 1;
         self * 10usize.pow(num_digits as u32) + other
     }
+}
+
+fn parse_line(target: usize, operands: &[usize], is_part2: bool) -> usize {
+    let mut stack = Vec::with_capacity(100);
+
+    if operands.len() > 0 {
+        stack.push((operands[0], 0));
+    }
+    while let Some((n, i)) = stack.pop() {
+        let is_last = i == operands.len() - 1;
+
+        if is_last && n == target {
+            return target;
+        }
+
+        if !is_last {
+            let addition = n + operands[i + 1];
+            if addition <= target {
+                stack.push((addition, i + 1));
+            }
+            let multiplication = n * operands[i + 1];
+            if multiplication <= target {
+                stack.push((multiplication, i + 1));
+            }
+            if is_part2 {
+                let concatenation = n.concat(operands[i + 1]);
+                if concatenation <= target {
+                    stack.push((concatenation, i + 1));
+                }
+            }
+        }
+    }
+
+    0
 }
 
 impl Parser {
@@ -37,10 +72,11 @@ impl Parser {
         self.input.get(self.offset).copied()
     }
 
-    fn parse_line(&mut self, operands: &mut Vec<usize>, stack: &mut Vec<(usize, usize)>) -> usize {
+    fn parse_operands_of_line(&mut self) -> (usize, Vec<usize>) {
         let target = self.parse_number();
         self.next(); // skip colon
         self.next(); // skip space
+        let mut operands = Vec::with_capacity(20);
         while let Some(c) = self.peek() {
             if c.is_ascii_digit() {
                 operands.push(self.parse_number());
@@ -52,42 +88,18 @@ impl Parser {
                 break;
             }
         }
-
-        if operands.len() > 0 {
-            stack.push((operands[0], 0));
-        }
-        while let Some((n, i)) = stack.pop() {
-            if n > target {
-                continue;
-            }
-            let is_last = i == operands.len() - 1;
-
-            if is_last && n == target {
-                return target;
-            }
-
-            if !is_last {
-                stack.push((n + operands[i + 1], i + 1));
-                stack.push((n * operands[i + 1], i + 1));
-                if self.is_part2 {
-                    stack.push((n.concat(operands[i + 1]), i + 1))
-                }
-            }
-        }
-
-        0
+        (target, operands)
     }
 
     fn parse(&mut self) -> usize {
-        let mut sum = 0;
-        let mut operands = Vec::with_capacity(20);
-        let mut stack = Vec::with_capacity(100);
+        let mut operands_lines = Vec::with_capacity(100);
         while self.peek().is_some() {
-            sum += self.parse_line(&mut operands, &mut stack);
-            operands.clear();
-            stack.clear();
+            operands_lines.push(self.parse_operands_of_line());
         }
-        sum
+        operands_lines
+            .par_iter()
+            .map(|(target, operands)| parse_line(*target, operands, self.is_part2))
+            .sum()
     }
 
     fn parse_number(&mut self) -> usize {
