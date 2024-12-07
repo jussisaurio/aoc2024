@@ -13,21 +13,51 @@ fn benchmark_all(c: &mut Criterion) {
 
     group
         .sample_size(10)
-        .measurement_time(std::time::Duration::from_secs(3))
-        .bench_function("d1_part1", |b| b.iter(|| day1_part1()))
-        .bench_function("d1_part2", |b| b.iter(|| day1_part2()))
-        .bench_function("d2_part1", |b| b.iter(|| day2_part1()))
-        .bench_function("d2_part2", |b| b.iter(|| day2_part2()))
-        .bench_function("d3_part1", |b| b.iter(|| day3_part1()))
-        .bench_function("d3_part2", |b| b.iter(|| day3_part2()))
-        .bench_function("d4_part1", |b| b.iter(|| day4_part1()))
-        .bench_function("d4_part2", |b| b.iter(|| day4_part2()))
-        .bench_function("d5_part1", |b| b.iter(|| day5_part1()))
-        .bench_function("d5_part2", |b| b.iter(|| day5_part2()))
-        .bench_function("d6_part1", |b| b.iter(|| day6_part1()))
-        .bench_function("d6_part2", |b| b.iter(|| day6_part2()))
-        .bench_function("d7_part1", |b| b.iter(|| day7_part1()))
-        .bench_function("d7_part2", |b| b.iter(|| day7_part2()));
+        .measurement_time(std::time::Duration::from_secs(3));
+
+    let all = std::env::var("PUZZLE").is_err();
+    if all || std::env::var("PUZZLE").unwrap() == "d1p1" {
+        group.bench_function("d1_part1", |b| b.iter(|| day1_part1()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d1p2" {
+        group.bench_function("d1_part2", |b| b.iter(|| day1_part2()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d2p1" {
+        group.bench_function("d2_part1", |b| b.iter(|| day2_part1()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d2p2" {
+        group.bench_function("d2_part2", |b| b.iter(|| day2_part2()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d3p1" {
+        group.bench_function("d3_part1", |b| b.iter(|| day3_part1()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d3p2" {
+        group.bench_function("d3_part2", |b| b.iter(|| day3_part2()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d4p1" {
+        group.bench_function("d4_part1", |b| b.iter(|| day4_part1()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d4p2" {
+        group.bench_function("d4_part2", |b| b.iter(|| day4_part2()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d5p1" {
+        group.bench_function("d5_part1", |b| b.iter(|| day5_part1()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d5p2" {
+        group.bench_function("d5_part2", |b| b.iter(|| day5_part2()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d6p1" {
+        group.bench_function("d6_part1", |b| b.iter(|| day6_part1()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d6p2" {
+        group.bench_function("d6_part2", |b| b.iter(|| day6_part2()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d7p1" {
+        group.bench_function("d7_part1", |b| b.iter(|| day7_part1()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d7p2" {
+        group.bench_function("d7_part2", |b| b.iter(|| day7_part2()));
+    }
 
     group.finish();
 }
