@@ -42,6 +42,9 @@ pub fn day8(min_k: usize, max_k: usize) -> usize {
                     );
                     let first_in_bounds = is_in_bounds(antinode1);
                     let second_in_bounds = is_in_bounds(antinode2);
+                    if !first_in_bounds && !second_in_bounds {
+                        break;
+                    }
                     if first_in_bounds {
                         antinodes_count += !antinodes
                             [antinode1.0 as usize + antinode1.1 as usize * SIDE_LENGTH]
@@ -53,9 +56,6 @@ pub fn day8(min_k: usize, max_k: usize) -> usize {
                             [antinode2.0 as usize + antinode2.1 as usize * SIDE_LENGTH]
                             as usize;
                         antinodes[antinode2.0 as usize + antinode2.1 as usize * SIDE_LENGTH] = true;
-                    }
-                    if !first_in_bounds && !second_in_bounds {
-                        break;
                     }
                 }
             }
