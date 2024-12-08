@@ -15,3 +15,10 @@ pub fn aoc_read_day_lines(day: u8) -> Vec<String> {
     file.read_to_string(&mut contents).unwrap();
     contents.lines().map(|s| s.to_string()).collect()
 }
+
+pub fn aoc_read_day_bytes(day: u8) -> Vec<u8> {
+    let mut file = File::open(format!("day{:02}.txt", day)).unwrap();
+    let mut contents = Vec::new();
+    file.read_to_end(&mut contents).unwrap();
+    contents
+}
