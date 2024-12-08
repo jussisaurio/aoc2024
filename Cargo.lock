@@ -59,6 +59,7 @@ dependencies = [
  "memmap",
  "pprof",
  "rayon",
+ "smallvec",
 ]
 
 [[package]]

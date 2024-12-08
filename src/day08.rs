@@ -1,4 +1,5 @@
 use crate::util::*;
+use smallvec::{smallvec, SmallVec};
 
 const SIDE_LENGTH: usize = 50;
 
@@ -9,7 +10,7 @@ fn is_in_bounds((x, y): (isize, isize)) -> bool {
 pub fn day8(is_part2: bool) -> usize {
     let bytes = aoc_read_day_bytes(8);
     // 'z' ascii code is 122, '0' ascii code is 48
-    let mut nodes: [Vec<usize>; 122 - 48 + 1] = std::array::from_fn(|_| Vec::new());
+    let mut nodes: [SmallVec<[usize; 8]>; 122 - 48 + 1] = std::array::from_fn(|_| smallvec![]);
     let mut i = 0;
     for byte in bytes {
         if byte == b'\n' {
