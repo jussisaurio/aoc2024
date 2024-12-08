@@ -46,16 +46,14 @@ pub fn day8(min_k: usize, max_k: usize) -> usize {
                         break;
                     }
                     if first_in_bounds {
-                        antinodes_count += !antinodes
-                            [antinode1.0 as usize + antinode1.1 as usize * SIDE_LENGTH]
-                            as usize;
-                        antinodes[antinode1.0 as usize + antinode1.1 as usize * SIDE_LENGTH] = true;
+                        let idx = antinode1.0 as usize + antinode1.1 as usize * SIDE_LENGTH;
+                        antinodes_count += !antinodes[idx] as usize;
+                        antinodes[idx] = true;
                     }
                     if second_in_bounds {
-                        antinodes_count += !antinodes
-                            [antinode2.0 as usize + antinode2.1 as usize * SIDE_LENGTH]
-                            as usize;
-                        antinodes[antinode2.0 as usize + antinode2.1 as usize * SIDE_LENGTH] = true;
+                        let idx = antinode2.0 as usize + antinode2.1 as usize * SIDE_LENGTH;
+                        antinodes_count += !antinodes[idx] as usize;
+                        antinodes[idx] = true;
                     }
                 }
             }
