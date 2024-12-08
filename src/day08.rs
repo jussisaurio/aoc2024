@@ -7,7 +7,7 @@ fn is_in_bounds((x, y): (isize, isize)) -> bool {
     x < SIDE_LENGTH as isize && y < SIDE_LENGTH as isize && x >= 0 && y >= 0
 }
 
-pub fn day8(is_part2: bool) -> usize {
+pub fn day8(min_k: usize, max_k: usize) -> usize {
     let bytes = aoc_read_day_bytes(8);
     // 'z' ascii code is 122, '0' ascii code is 48
     let mut nodes: [SmallVec<[usize; 8]>; 122 - 48 + 1] = std::array::from_fn(|_| smallvec![]);
@@ -29,13 +29,9 @@ pub fn day8(is_part2: bool) -> usize {
                 let y1 = positions[i] / SIDE_LENGTH;
                 let x2 = positions[j] % SIDE_LENGTH;
                 let y2 = positions[j] / SIDE_LENGTH;
-                antinodes_count += (is_part2 && !antinodes[positions[i]]) as usize;
-                antinodes_count += (is_part2 && !antinodes[positions[j]]) as usize;
-                antinodes[positions[i]] = is_part2;
-                antinodes[positions[j]] = is_part2;
                 let xdiff = x2 as isize - x1 as isize;
                 let ydiff = y2 as isize - y1 as isize;
-                for k in 1..=if is_part2 { usize::MAX } else { 1 } {
+                for k in min_k..=max_k {
                     let antinode1 = (
                         x1 as isize - xdiff * k as isize,
                         y1 as isize - ydiff * k as isize,
@@ -69,9 +65,9 @@ pub fn day8(is_part2: bool) -> usize {
 }
 
 pub fn day8_part1() -> usize {
-    day8(false)
+    day8(1, 1)
 }
 
 pub fn day8_part2() -> usize {
-    day8(true)
+    day8(0, usize::MAX)
 }
