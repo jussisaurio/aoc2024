@@ -13,11 +13,8 @@ pub fn day8(is_part2: bool) -> usize {
     let mut nodes: [SmallVec<[usize; 8]>; 122 - 48 + 1] = std::array::from_fn(|_| smallvec![]);
     let mut i = 0;
     for byte in bytes {
-        if byte == b'\n' {
-            continue;
-        }
         if (byte as usize) < 48 {
-            i += 1;
+            i += (byte == b'.') as usize;
             continue;
         }
         nodes[byte as usize - 48].push(i);
