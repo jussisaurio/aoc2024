@@ -6,6 +6,8 @@ use aoc2024::day05::{day5_part1, day5_part2};
 use aoc2024::day06::{day6_part1, day6_part2};
 use aoc2024::day07::{day7_part1, day7_part2};
 use aoc2024::day08::{day8_part1, day8_part2};
+use aoc2024::day09::{day9_part1, day9_part2};
+
 fn main() {
     let ret1 = day1_part1();
     println!("day1_part1: {}", ret1);
@@ -39,4 +41,8 @@ fn main() {
     println!("day8_part1: {}", ret8);
     let ret8_2 = day8_part2();
     println!("day8_part2: {}", ret8_2);
+    let ret9 = day9_part1();
+    println!("day9_part1: {}", ret9);
+    let ret9_2 = day9_part2();
+    println!("day9_part2: {}", ret9_2);
 }
