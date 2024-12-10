@@ -1,3 +1,5 @@
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
+
 use crate::util::*;
 use std::collections::VecDeque;
 
@@ -57,7 +59,7 @@ pub fn day10(is_part_2: bool) -> usize {
     }
 
     starting_points
-        .iter()
+        .par_iter()
         .map(|start| bfs(&input, *start, is_part_2))
         .sum()
 }
