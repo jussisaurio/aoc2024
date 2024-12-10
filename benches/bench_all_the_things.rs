@@ -7,6 +7,7 @@ use aoc2024::day06::{day6_part1, day6_part2};
 use aoc2024::day07::{day7_part1, day7_part2};
 use aoc2024::day08::{day8_part1, day8_part2};
 use aoc2024::day09::{day9_part1, day9_part2};
+use aoc2024::day10::{day10_part1, day10_part2};
 use criterion::{criterion_group, criterion_main, Criterion};
 use pprof::criterion::{Output, PProfProfiler};
 
@@ -71,6 +72,12 @@ fn benchmark_all(c: &mut Criterion) {
     }
     if all || std::env::var("PUZZLE").unwrap() == "d9p2" {
         group.bench_function("d9_part2", |b| b.iter(|| day9_part2()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d10p1" {
+        group.bench_function("d10_part1", |b| b.iter(|| day10_part1()));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d10p2" {
+        group.bench_function("d10_part2", |b| b.iter(|| day10_part2()));
     }
 
     group.finish();
