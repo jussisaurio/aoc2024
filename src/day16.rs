@@ -54,6 +54,7 @@ struct Node {
 
 impl Ord for Node {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        // reverse the order so we have a min heap since BinaryHeap is a max heap
         other.cost.cmp(&self.cost)
     }
 }

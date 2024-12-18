@@ -13,6 +13,9 @@ use aoc2024::day12::{day12_part1, day12_part2};
 use aoc2024::day13::{day13_part1, day13_part2};
 use aoc2024::day14::{day14_part1, day14_part2};
 use aoc2024::day15::{day15_part1, day15_part2};
+use aoc2024::day16::{day16_part1, day16_part2};
+use aoc2024::day17::{day17_part1, day17_part2};
+use aoc2024::day18::{day18_part1, day18_part2};
 use criterion::{criterion_group, criterion_main, Criterion};
 use pprof::criterion::{Output, PProfProfiler};
 
@@ -113,6 +116,24 @@ fn benchmark_all(c: &mut Criterion) {
     }
     if all || std::env::var("PUZZLE").unwrap() == "d15p2" {
         group.bench_function("d15_part2", |b| b.iter(|| day15_part2(None)));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d16p1" {
+        group.bench_function("d16_part1", |b| b.iter(|| day16_part1(None)));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d16p2" {
+        group.bench_function("d16_part2", |b| b.iter(|| day16_part2(None)));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d17p1" {
+        group.bench_function("d17_part1", |b| b.iter(|| day17_part1(None, None)));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d17p2" {
+        group.bench_function("d17_part2", |b| b.iter(|| day17_part2(None)));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d18p1" {
+        group.bench_function("d18_part1", |b| b.iter(|| day18_part1(None)));
+    }
+    if all || std::env::var("PUZZLE").unwrap() == "d18p2" {
+        group.bench_function("d18_part2", |b| b.iter(|| day18_part2(None)));
     }
 
     group.finish();
